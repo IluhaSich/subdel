@@ -4,9 +4,11 @@ import com.example.subdel.service.DelicacyService;
 import com.example.subdel_api.dtos.request.DelicacyRequest;
 import com.example.subdel_api.dtos.response.DelicacyResponse;
 import com.example.subdel_api.dtos.response.PagedResponse;
+import com.example.subdel_api.dtos.response.ProductResponse;
 import com.netflix.graphql.dgs.*;
 
 import java.util.List;
+import java.util.Map;
 
 @DgsComponent
 public class DelicacyDataFetcher {
@@ -16,8 +18,6 @@ public class DelicacyDataFetcher {
     public DelicacyDataFetcher(DelicacyService delicacyService) {
         this.delicacyService = delicacyService;
     }
-
-    // ======== QUERIES ========
 
     @DgsQuery
     public PagedResponse<DelicacyResponse> delicacies(
@@ -34,13 +34,22 @@ public class DelicacyDataFetcher {
     }
 
     @DgsMutation
-    public DelicacyResponse createDelicacy(@InputArgument("input") DelicacyRequest input) {
-        return delicacyService.createDelicacy(input);
+    public DelicacyResponse createDelicacy(@InputArgument("input") Map<String, Object> input) {
+
+        DelicacyRequest request = mapToDelicacyRequest(input);
+
+        return delicacyService.createDelicacy(request);
     }
 
     @DgsMutation
-    public DelicacyResponse updateDelicacy(@InputArgument Long id, @InputArgument("input") DelicacyRequest input) {
-        return delicacyService.updateDelicacy(id, input);
+    public DelicacyResponse updateDelicacy(
+            @InputArgument Long id,
+            @InputArgument("input") Map<String, Object> input
+    ) {
+
+        DelicacyRequest request = mapToDelicacyRequest(input);
+
+        return delicacyService.updateDelicacy(id, request);
     }
 
     @DgsMutation
@@ -54,4 +63,29 @@ public class DelicacyDataFetcher {
         DelicacyResponse delicacy = dfe.getSource();
         return delicacy.getProducts();
     }
+
+    private DelicacyRequest mapToDelicacyRequest(Map<String, Object> input) {
+
+        List<Long> productIds = ((List<?>) input.get("productIds")).stream()
+                .map(id -> Long.parseLong(id.toString()))
+                .toList();
+
+        List<ProductResponse> products = productIds.stream()
+                .map(id -> new ProductResponse(id, null))
+                .toList();
+
+        return new DelicacyRequest(
+                (String) input.get("name"),
+                ((Number) input.get("price")).doubleValue(),
+                ((Number) input.get("mass")).doubleValue(),
+                ((Number) input.get("proteins")).doubleValue(),
+                ((Number) input.get("fats")).doubleValue(),
+                ((Number) input.get("carbohydrates")).doubleValue(),
+                ((Number) input.get("kcal")).doubleValue(),
+                (String) input.get("country"),
+                products
+        );
+    }
+
+
 }

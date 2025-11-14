@@ -6,6 +6,7 @@ import com.example.subdel_api.dtos.response.ProductResponse;
 import com.netflix.graphql.dgs.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @DgsComponent
@@ -28,13 +29,21 @@ public class ProductDataFetcher {
     }
 
     @DgsMutation
-    public ProductResponse createProduct(@InputArgument("input") ProductRequest input) {
-        return productService.create(input);
+    public ProductResponse createProduct(@InputArgument("input") Map<String, String> input) {
+
+        ProductRequest request = new ProductRequest( input.get("name"));
+        return productService.create(request);
     }
 
     @DgsMutation
-    public ProductResponse updateProduct(@InputArgument Long id, @InputArgument("input") ProductRequest input) {
-        return productService.update(id, input);
+    public ProductResponse updateProduct(
+            @InputArgument Long id,
+            @InputArgument("input") Map<String, String> input
+    ) {
+
+        ProductRequest request = new ProductRequest(input.get("name"));
+
+        return productService.update(id, request);
     }
 
     @DgsMutation
