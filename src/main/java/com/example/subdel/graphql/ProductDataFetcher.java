@@ -31,7 +31,7 @@ public class ProductDataFetcher {
     @DgsMutation
     public ProductResponse createProduct(@InputArgument("input") Map<String, String> input) {
 
-        ProductRequest request = new ProductRequest( input.get("name"));
+        ProductRequest request = new ProductRequest( input.get("name"), Double.parseDouble(input.get("price")));
         return productService.create(request);
     }
 
@@ -41,7 +41,7 @@ public class ProductDataFetcher {
             @InputArgument("input") Map<String, String> input
     ) {
 
-        ProductRequest request = new ProductRequest(input.get("name"));
+        ProductRequest request = new ProductRequest( input.get("name"), Double.parseDouble(input.get("price")));
 
         return productService.update(id, request);
     }

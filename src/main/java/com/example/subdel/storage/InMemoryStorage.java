@@ -24,10 +24,10 @@ public class InMemoryStorage {
     public void init() {
 
         // Создание продуктов
-        var product1 = new ProductResponse(productSequence.incrementAndGet(), "Морковь");
-        var product2 = new ProductResponse(productSequence.incrementAndGet(), "Перец");
-        var product3 = new ProductResponse(productSequence.incrementAndGet(), "Клубника");
-        var product4 = new ProductResponse(productSequence.incrementAndGet(), "Молоко");
+        var product1 = new ProductResponse(productSequence.incrementAndGet(), "Морковь", 5.0);
+        var product2 = new ProductResponse(productSequence.incrementAndGet(), "Перец", 6.27);
+        var product3 = new ProductResponse(productSequence.incrementAndGet(), "Клубника", 30.0);
+        var product4 = new ProductResponse(productSequence.incrementAndGet(), "Молоко", 8.7);
 
         products.put(product1.getId(), product1);
         products.put(product2.getId(), product2);

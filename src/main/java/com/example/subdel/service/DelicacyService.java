@@ -62,7 +62,7 @@ public class DelicacyService {
         var delicacy = new DelicacyResponse(
                 id,
                 request.name(),
-                request.price(),
+                null,
                 request.mass(),
                 request.proteins(),
                 request.fats(),
@@ -88,7 +88,7 @@ public class DelicacyService {
         var updated = new DelicacyResponse(
                 id,
                 request.name(),
-                request.price(),
+                null,
                 request.mass(),
                 request.proteins(),
                 request.fats(),

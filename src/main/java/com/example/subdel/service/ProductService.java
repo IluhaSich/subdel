@@ -29,14 +29,14 @@ public class ProductService {
 
     public ProductResponse create(ProductRequest request) {
         long id = storage.productSequence.incrementAndGet();
-        ProductResponse product = new ProductResponse(id, request.name());
+        ProductResponse product = new ProductResponse(id, request.name(), request.price());
         storage.products.put(id, product);
         return product;
     }
 
     public ProductResponse update(Long id, ProductRequest request) {
         findById(id);
-        ProductResponse updated = new ProductResponse(id, request.name());
+        ProductResponse updated = new ProductResponse(id, request.name(), request.price());
         storage.products.put(id, updated);
         return updated;
     }

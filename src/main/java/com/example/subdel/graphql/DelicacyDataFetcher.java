@@ -71,12 +71,11 @@ public class DelicacyDataFetcher {
                 .toList();
 
         List<ProductResponse> products = productIds.stream()
-                .map(id -> new ProductResponse(id, null))
+                .map(id -> new ProductResponse(id, null,null))
                 .toList();
 
         return new DelicacyRequest(
                 (String) input.get("name"),
-                ((Number) input.get("price")).doubleValue(),
                 ((Number) input.get("mass")).doubleValue(),
                 ((Number) input.get("proteins")).doubleValue(),
                 ((Number) input.get("fats")).doubleValue(),
