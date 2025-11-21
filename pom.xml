@@ -107,7 +107,7 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>events-contract</artifactId>
-            <version>1.03</version>
+            <version>1.04</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/events-contract.jar</systemPath>
         </dependency>
