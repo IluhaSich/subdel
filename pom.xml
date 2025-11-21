@@ -99,9 +99,17 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>subdel-api</artifactId>
-            <version>1.26</version>
+            <version>1.27</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/subdel-api.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>events-contract</artifactId>
+            <version>1.03</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/events-contract.jar</systemPath>
         </dependency>
 
 

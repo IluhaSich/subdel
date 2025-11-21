@@ -1,11 +1,17 @@
 package com.example.subdel.service;
 
+import com.example.events_contract.events.ProductDto;
+import com.example.events_contract.events.DelicacyCreatedEvent;
+import com.example.subdel.config.RabbitMQConfig;
 import com.example.subdel.storage.InMemoryStorage;
 import com.example.subdel_api.dtos.request.DelicacyRequest;
 import com.example.subdel_api.dtos.response.DelicacyResponse;
 import com.example.subdel_api.dtos.response.PagedResponse;
 import com.example.subdel_api.dtos.response.ProductResponse;
 import com.example.subdel_api.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +23,16 @@ import java.util.stream.Stream;
 @Service
 public class DelicacyService {
 
+    private static final Logger log = LoggerFactory.getLogger(DelicacyService.class);
+
     private final InMemoryStorage storage;
     private final ProductService productService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public DelicacyService(InMemoryStorage storage, @Lazy ProductService productService) {
+    public DelicacyService(InMemoryStorage storage, @Lazy ProductService productService, RabbitTemplate rabbitTemplate) {
         this.storage = storage;
         this.productService = productService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public DelicacyResponse findDelicacyById(Long id) {
@@ -74,6 +84,17 @@ public class DelicacyService {
         );
 
         storage.delicacies.put(id, delicacy);
+        log.info("delicacy was saved: {}.", delicacy);
+
+        DelicacyCreatedEvent event = new DelicacyCreatedEvent(
+                delicacy.getId(),
+                delicacy.getProducts().stream().map(productResponse ->
+                        new ProductDto(productResponse.getId(),
+                                productResponse.getName(),
+                                productResponse.getPrice()
+                )).toList()
+        );
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_BOOK_CREATED, event);
         return delicacy;
     }
 
