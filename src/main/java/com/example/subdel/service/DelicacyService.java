@@ -1,5 +1,6 @@
 package com.example.subdel.service;
 
+import com.example.events_contract.events.DelicacyDeletedEvent;
 import com.example.events_contract.events.ProductDto;
 import com.example.events_contract.events.DelicacyCreatedEvent;
 import com.example.subdel.config.RabbitMQConfig;
@@ -92,9 +93,9 @@ public class DelicacyService {
                         new ProductDto(productResponse.getId(),
                                 productResponse.getName(),
                                 productResponse.getPrice()
-                )).toList()
+                        )).toList()
         );
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_BOOK_CREATED, event);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_DELICACY_CREATED, event);
         return delicacy;
     }
 
@@ -127,6 +128,10 @@ public class DelicacyService {
     public void deleteDelicacy(Long id) {
         findDelicacyById(id);
         storage.delicacies.remove(id);
+        DelicacyDeletedEvent event = new DelicacyDeletedEvent(id);
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_DELICACY_DELETED, event
+        );
     }
 
     public void deleteDelicaciesByProductId(Long productId) {
