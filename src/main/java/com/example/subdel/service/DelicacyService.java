@@ -28,11 +28,13 @@ public class DelicacyService {
 
     private final InMemoryStorage storage;
     private final ProductService productService;
+    private final DelicacyAnalyticsService delicacyAnalyticsService;
     private final RabbitTemplate rabbitTemplate;
 
-    public DelicacyService(InMemoryStorage storage, @Lazy ProductService productService, RabbitTemplate rabbitTemplate) {
+    public DelicacyService(InMemoryStorage storage, @Lazy ProductService productService, DelicacyAnalyticsService delicacyAnalyticsService, RabbitTemplate rabbitTemplate) {
         this.storage = storage;
         this.productService = productService;
+        this.delicacyAnalyticsService = delicacyAnalyticsService;
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -96,6 +98,7 @@ public class DelicacyService {
                         )).toList()
         );
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_DELICACY_CREATED, event);
+        delicacyAnalyticsService.analyze(delicacy.getId());
         return delicacy;
     }
 

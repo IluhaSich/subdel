@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.grpc.analytics";
+option java_outer_classname = "DelicacyAnalyticsProto";
+
+service DelicacyAnalyticsService {
+  rpc AnalyzeDelicacy (DelicacyAnalyticsRequest)
+      returns (DelicacyAnalyticsResponse);
+}
+
+message DelicacyAnalyticsRequest {
+  int64 delicacy_id = 1;
+}
+
+message DelicacyAnalyticsResponse {
+  int64 delicacy_id = 1;
+  int32 score = 2;
+  string verdict = 3;
+}

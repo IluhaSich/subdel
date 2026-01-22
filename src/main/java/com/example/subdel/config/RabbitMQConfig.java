@@ -3,6 +3,7 @@ package com.example.subdel.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,6 +19,13 @@ public class RabbitMQConfig {
     public static final String EXCHANGE_NAME = "delicacy-exchange";
     public static final String ROUTING_KEY_DELICACY_CREATED = "delicacy.created";
     public static final String ROUTING_KEY_DELICACY_DELETED = "delicacy.deleted";
+
+    public static final String ANALYTICS_FANOUT = "delicacy-analytics-fanout";
+
+    @Bean
+    public FanoutExchange analyticsFanout() {
+        return new FanoutExchange(ANALYTICS_FANOUT, true, false);
+    }
 
     @Bean
     public TopicExchange delicacyExchange() {

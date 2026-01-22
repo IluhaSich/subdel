@@ -131,7 +131,7 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>subdel-api</artifactId>
-            <version>1.28</version>
+            <version>1.29</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/subdel-api.jar</systemPath>
         </dependency>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>events-contract</artifactId>
-            <version>1.07</version>
+            <version>1.08</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/events-contract.jar</systemPath>
         </dependency>
