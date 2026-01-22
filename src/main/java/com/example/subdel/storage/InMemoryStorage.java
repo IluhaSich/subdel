@@ -2,7 +2,6 @@ package com.example.subdel.storage;
 
 import com.example.subdel_api.dtos.response.DelicacyResponse;
 import com.example.subdel_api.dtos.response.ProductResponse;
-import com.example.subdel_api.dtos.response.UserResponse;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
