@@ -17,11 +17,9 @@ public class InMemoryStorage {
 
     public final Map<Long, DelicacyResponse> delicacies = new ConcurrentHashMap<>();
     public final Map<Long, ProductResponse> products = new ConcurrentHashMap<>();
-    public final Map<Long, UserResponse> users = new ConcurrentHashMap<>();
 
     public final AtomicLong delicacySequence = new AtomicLong(0);
     public final AtomicLong productSequence = new AtomicLong(0);
-    public final AtomicLong userSequence = new AtomicLong(0);
 
     @PostConstruct
     public void init() {
@@ -83,20 +81,6 @@ public class InMemoryStorage {
                 LocalDateTime.now()
         ));
 
-        var user1 = new UserResponse(
-                userSequence.incrementAndGet(),
-                "Иван",
-                List.of(delicacies.get(1L), delicacies.get(2L))
-        );
-
-        var user2 = new UserResponse(
-                userSequence.incrementAndGet(),
-                "Анна",
-                List.of(delicacies.get(3L))
-        );
-
-        users.put(user1.getId(), user1);
-        users.put(user2.getId(), user2);
 
     }
 }

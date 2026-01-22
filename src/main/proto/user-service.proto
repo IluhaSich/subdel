@@ -10,16 +10,16 @@ service UserService {
   // Метод для создания нового пользователя
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
 
-  // Метод для получения достижений пользователя по его ID
-//  rpc GetUserBadges(GetUserBadgesRequest) returns (GetUserBadgesResponse) {}
+  // Метод для получения  пользователей
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
 
   // Метод для получения подписок пользователя по его ID
-    rpc GetUserDelicacy(GetUserDelicacyRequest) returns (GetUserDelicacyResponse) {}
+  rpc GetUserDelicacy(GetUserDelicacyRequest) returns (GetUserDelicacyResponse) {}
 
   // Метод для добавления подписки(деликатеса) пользователю по ID
-    rpc AddDelicacyToUser(AddDelicacyToUserRequest) returns (AddDelicacyToUserResponse) {}
+  rpc AddDelicacyToUser(AddDelicacyToUserRequest) returns (AddDelicacyToUserResponse) {}
   // Метод для удаление подписки(деликатеса) пользователя по ID
-    rpc RemoveDelicacyFromUser(RemoveDelicacyFromUserRequest) returns (RemoveDelicacyFromUserResponse) {}
+  rpc RemoveDelicacyFromUser(RemoveDelicacyFromUserRequest) returns (RemoveDelicacyFromUserResponse) {}
 }
 
 message Delicacy {
@@ -40,6 +40,15 @@ message CreateUserRequest {
 // Ответ после создания пользователя
 message CreateUserResponse {
   User user = 1;
+}
+
+// Запрос на получение пользователя
+message GetUsersRequest {
+}
+
+// Ответ, содержащий список пользователей
+message GetUsersResponse {
+  repeated User user = 1;
 }
 
 // Запрос на получение деликатесов(подписок)
